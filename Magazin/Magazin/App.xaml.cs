@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Magazin.Views;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -10,7 +11,7 @@ namespace Magazin
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            MainPage = new NavigationPage(new OffersListPage());
         }
 
         protected override void OnStart()
