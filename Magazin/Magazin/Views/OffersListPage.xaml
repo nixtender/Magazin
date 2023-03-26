@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="windows-1251" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Magazin.Views.OffersListPage">
+             x:Class="Magazin.Views.OffersListPage" Title="Offers ID">
     <ListView x:Name="offersList"
-            ItemsSource="{Binding Offers}">
+            ItemsSource="{Binding OffersList}">
         <ListView.ItemTemplate>
         <DataTemplate>
-            <TextCell Text="{Binding Id}" />
+            <TextCell Text="{Binding Id}" TextColor="Black" />
         </DataTemplate>
     </ListView.ItemTemplate>
     

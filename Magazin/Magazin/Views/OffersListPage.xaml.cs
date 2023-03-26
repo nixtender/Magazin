@@ -11,22 +11,20 @@ using System.Xml.Serialization;
 using System.IO;
 using Magazin.Models;
 using System.Xml.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace Magazin.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class OffersListPage : ContentPage
     {
+
         public OffersListPage()
         {
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             InitializeComponent();
             BindingContext = new OffersListViewModel { Navigation = this.Navigation };
-
-            System.Text.Encoding WINDOWS1251 = Encoding.GetEncoding(1251);
-            /*System.Text.Encoding UTF8 = Encoding.UTF8;*/
-
-            string url = "http://partner.market.yandex.ru/pages/help/YML.xml";
 
 
             /*HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
@@ -36,55 +34,41 @@ namespace Magazin.Views
             XmlSerializer serializer = new XmlSerializer(typeof(Offer));
             Offer offer = (Offer)serializer.Deserialize(responseStream);
             Console.WriteLine(offer.Id);*/
-
-            string xmlDoc = "";
+            //
+            /*string xmlDoc = "";
 
             XmlDocument doc = new XmlDocument();
             doc.Load(url);
             XmlElement root = doc.DocumentElement;
             var shop = root.FirstChild;
-            /*XmlNode offers;
-            foreach (XmlNode childNode in shop)
-            {
-                if (childNode.Name == "offers")
-                    offers = childNode;
-            }*/
+
             XmlNode offers = shop.SelectSingleNode("offers");
             foreach(XmlNode childNode in offers.ChildNodes)
             {
                 Console.WriteLine(childNode.Attributes["id"].Value);
             }
-            Console.WriteLine(offers.ToString());
-
-            /*XmlTextReader reader = new XmlTextReader(url);
-            while (reader.Read())
-            {
-                switch (reader.NodeType)
-                {
-                    case XmlNodeType.Element: // The node is an element.
-                        xmlDoc += "<" + reader.Name;
-
-                        while (reader.MoveToNextAttribute()) // Read the attributes.
-                            xmlDoc += " " + reader.Name + "='" + reader.Value + "'";
-                        //xmlDoc += ">";
-                        if (reader.)
-
-                        xmlDoc += ">";
-                        break;
-                    case XmlNodeType.Text: //Display the text in each element.
-                        xmlDoc += reader.Value;
-                        break;
-                    case XmlNodeType.EndElement: //Display the end of the element.
-                        xmlDoc += "</" + reader.Name;
-                        xmlDoc += ">";
-                        break;
-                }
-            }
+            Console.WriteLine(offers.ToString());*/
+            //
+            /*
             Console.WriteLine(xmlDoc);
             XElement yml_catalog = XElement.Parse(xmlDoc);
             XElement shop = XElement.Parse(yml_catalog.ToString());
             XElement offers = XElement.Parse(shop.ToString());
             Console.WriteLine(offers.ToString());*/
         }
+
+
+        protected override async void OnAppearing()
+        {
+            
+            /*var httpClient = new HttpClient();
+            var httpResponse = await httpClient.GetStringAsync(url);
+            var ser = new XmlSerializer(typeof(Offer));
+            var t = (Offer)ser.Deserialize(new StringReader(httpResponse));
+            //XElement shop = XElement.Parse(xmlString);
+            Console.WriteLine(t.Id);*/
+        }
+
+
     }
 }

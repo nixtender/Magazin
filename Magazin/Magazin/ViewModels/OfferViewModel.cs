@@ -9,22 +9,36 @@ namespace Magazin.ViewModels
     public class OfferViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+        OffersListViewModel lvm;
 
-        public Offer offer { get; set; }
+        public Offer Offer { get; set; }
 
         public OfferViewModel()
         {
-            offer = new Offer();
+            Offer = new Offer();
+        }
+
+        public OffersListViewModel ListViewModel
+        {
+            get { return lvm; }
+            set
+            {
+                if (lvm != value)
+                {
+                    lvm = value;
+                    OnPropertyChanged("ListViewModel");
+                }
+            }
         }
 
         public string Id
         {
-            get { return offer.Id; }
+            get { return Offer.Id; }
             set
             {
-                if (offer.Id != value)
+                if (Offer.Id != value)
                 {
-                    offer.Id = value;
+                    Offer.Id = value;
                     OnPropertyChanged("Id");
                 }
             }
@@ -32,12 +46,12 @@ namespace Magazin.ViewModels
 
         public string Url
         {
-            get { return offer.Url; }
+            get { return Offer.Url; }
             set
             {
-                if (offer.Url != value)
+                if (Offer.Url != value)
                 {
-                    offer.Url = value;
+                    Offer.Url = value;
                     OnPropertyChanged("Url");
                 }
             }
@@ -45,12 +59,12 @@ namespace Magazin.ViewModels
 
         public string Price
         {
-            get { return offer.Price; }
+            get { return Offer.Price; }
             set
             {
-                if (offer.Price != value)
+                if (Offer.Price != value)
                 {
-                    offer.Price = value;
+                    Offer.Price = value;
                     OnPropertyChanged("Price");
                 }
             }

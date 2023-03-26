@@ -1,17 +1,21 @@
-﻿using System;
+﻿using Magazin.Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Net;
 using System.Text;
 using System.Xml;
+using System.Xml.Serialization;
 using Xamarin.Forms;
 
 namespace Magazin.ViewModels
 {
     public class OffersListViewModel : INotifyPropertyChanged
     {
-        public ObservableCollection<OfferViewModel> Offers { get; set; }
+        public ObservableCollection<Offer> OffersList { get; set; }
+
+        string url = "http://partner.market.yandex.ru/pages/help/YML.xml";
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -19,7 +23,8 @@ namespace Magazin.ViewModels
 
         public OffersListViewModel()
         {
-            Offers = new ObservableCollection<OfferViewModel>();
+            OffersList = new ObservableCollection<Offer>();
+            GetOffers();
         }
 
         protected void OnPropertyChanged(string propName)
@@ -30,14 +35,23 @@ namespace Magazin.ViewModels
 
         private async void GetOffers()
         {
-            string url = "http://partner.market.yandex.ru/pages/help/YML.xml";
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+            System.Text.Encoding WINDOWS1251 = Encoding.GetEncoding(1251);
 
-            //HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-            XmlTextReader reader = new XmlTextReader(url);
-            while (reader.Read())
+            XmlDocument doc = new XmlDocument();
+            doc.Load(url);
+            XmlElement root = doc.DocumentElement;
+            var shop = root.FirstChild;
+
+            XmlNode offers = shop.SelectSingleNode("offers");
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(Offer));
+            foreach (XmlNode childNode in offers.ChildNodes)
             {
-                // Do some work here on the data.
-                Console.WriteLine(reader.Name);
+                using (XmlNodeReader reader = new XmlNodeReader(childNode))
+                {
+                    Offer offer = (Offer)xmlSerializer.Deserialize(reader);
+                    OffersList.Add(offer);
+                }
             }
         }
     }
