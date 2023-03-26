@@ -1,11 +1,9 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="windows-1251" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Magazin.Views.OffersListPage">
     <ListView x:Name="offersList"
-            ItemsSource="{Binding Offers}"
-            ItemTapped="Handle_ItemTapped"
-            CachingStrategy="RecycleElement">
+            ItemsSource="{Binding Offers}">
         <ListView.ItemTemplate>
         <DataTemplate>
             <TextCell Text="{Binding Id}" />
