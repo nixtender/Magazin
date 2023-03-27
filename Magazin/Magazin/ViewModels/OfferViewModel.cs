@@ -1,8 +1,11 @@
 ﻿using Magazin.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
+using static Xamarin.Essentials.Permissions;
+using Xamarin.Essentials;
 
 namespace Magazin.ViewModels
 {
@@ -10,6 +13,7 @@ namespace Magazin.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
         OffersListViewModel lvm;
+        //string json = "";
 
         public Offer Offer { get; set; }
 
@@ -30,6 +34,23 @@ namespace Magazin.ViewModels
                 }
             }
         }
+
+        /*public string Json
+        {
+            get 
+            {
+                string j = JsonConvert.SerializeObject(Offer, Formatting.Indented);
+                return j;
+            }
+            set
+            {
+                if (json != value)
+                {
+                    json = value;
+                    OnPropertyChanged("Json");
+                }
+            }
+        }*/
 
         public string Id
         {
@@ -70,12 +91,19 @@ namespace Magazin.ViewModels
             }
         }
 
+        public bool IsValid
+        {
+            get
+            {
+                return ((!string.IsNullOrEmpty(Id.Trim())) ||
+                    (!string.IsNullOrEmpty(Url.Trim())) ||
+                    (!string.IsNullOrEmpty(Price.Trim())));
+            }
+        }
+
         protected void OnPropertyChanged(string propName)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
     }
 }

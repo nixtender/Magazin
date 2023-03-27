@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Magazin.Views.OffersListPage" Title="Offers ID">
     <ListView x:Name="offersList"
-            ItemsSource="{Binding OffersList}">
+            ItemsSource="{Binding OffersList}" SelectedItem="{Binding SelectedOffer, Mode=TwoWay}" HasUnevenRows="True">
         <ListView.ItemTemplate>
         <DataTemplate>
             <TextCell Text="{Binding Id}" TextColor="Black" />

@@ -1,4 +1,5 @@
-﻿using Magazin.ViewModels;
+﻿using Magazin.Models;
+using Magazin.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +15,14 @@ namespace Magazin.Views
     public partial class OfferPage : ContentPage
     {
         public OfferViewModel ViewModel { get; set; }
+        //public Offer Offer { get; set; }
         public OfferPage(OfferViewModel vm)
         {
             InitializeComponent();
             ViewModel = vm;
             this.BindingContext = ViewModel;
         }
+
+
     }
 }
