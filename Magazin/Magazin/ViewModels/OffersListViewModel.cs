@@ -5,10 +5,14 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Xml;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 using Xamarin.Forms;
 
@@ -50,19 +54,29 @@ namespace Magazin.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
 
-        private async void GetOffers()
+        public async void GetOffers()
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             System.Text.Encoding WINDOWS1251 = Encoding.GetEncoding(1251);
 
-            XmlDocument doc = new XmlDocument();
-            doc.Load(url);
-            XmlElement root = doc.DocumentElement;
-            var shop = root.FirstChild;
+            HttpClient httpClient = new HttpClient();
+            var data = await httpClient.GetAsync(url);
+            var buffer = await data.Content.ReadAsByteArrayAsync();
+            byte[] bytes = buffer.ToArray();
+            string dataString = WINDOWS1251.GetString(bytes, 0, bytes.Length);
+            dataString = dataString.Replace("<!DOCTYPE yml_catalog SYSTEM \"shops.dtd\">", "");
 
-            XmlNode offers = shop.SelectSingleNode("offers");
+            var doc = new XDocument();
+            doc = XDocument.Parse(dataString);
+            XElement root = doc.Element("yml_catalog");
+            var shop = root.Element("shop");
+            var offers = shop.Element("offers");
+
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(Offer));
-            foreach (XmlNode childNode in offers.ChildNodes)
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml(offers.ToString());
+            XmlNode xmlOff = xmlDoc.FirstChild;
+            foreach (XmlNode childNode in xmlOff.ChildNodes)
             {
                 using (XmlNodeReader reader = new XmlNodeReader(childNode))
                 {

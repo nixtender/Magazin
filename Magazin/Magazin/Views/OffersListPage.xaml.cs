@@ -32,5 +32,7 @@ namespace Magazin.Views
             
         }
 
+        
+
     }
 }
