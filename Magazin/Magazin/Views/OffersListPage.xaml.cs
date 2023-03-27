@@ -32,11 +32,5 @@ namespace Magazin.Views
             
         }
 
-        /*private async void listItemSelected(object sender, SelectedItemChangedEventArgs e)
-        {
-            Offer offer = (Offer)e.SelectedItem;
-            await Navigation.PushAsync(new OfferPage(new OfferViewModel() { ListViewModel = vm }));
-        }*/
-
     }
 }

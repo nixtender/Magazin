@@ -15,7 +15,6 @@ namespace Magazin.Views
     public partial class OfferPage : ContentPage
     {
         public OfferViewModel ViewModel { get; set; }
-        //public Offer Offer { get; set; }
         public OfferPage(OfferViewModel vm)
         {
             InitializeComponent();

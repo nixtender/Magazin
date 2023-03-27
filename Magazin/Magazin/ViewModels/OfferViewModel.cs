@@ -13,7 +13,7 @@ namespace Magazin.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
         OffersListViewModel lvm;
-        //string json = "";
+        string json = "";
 
         public Offer Offer { get; set; }
 
@@ -35,9 +35,9 @@ namespace Magazin.ViewModels
             }
         }
 
-        /*public string Json
+        public string Json
         {
-            get 
+            get
             {
                 string j = JsonConvert.SerializeObject(Offer, Formatting.Indented);
                 return j;
@@ -50,7 +50,7 @@ namespace Magazin.ViewModels
                     OnPropertyChanged("Json");
                 }
             }
-        }*/
+        }
 
         public string Id
         {
@@ -91,13 +91,16 @@ namespace Magazin.ViewModels
             }
         }
 
-        public bool IsValid
+        public string JsonParam
         {
-            get
+            get { return Offer.JsonParam; }
+            set
             {
-                return ((!string.IsNullOrEmpty(Id.Trim())) ||
-                    (!string.IsNullOrEmpty(Url.Trim())) ||
-                    (!string.IsNullOrEmpty(Price.Trim())));
+                if (Offer.JsonParam != value)
+                {
+                    Offer.JsonParam = value;
+                    OnPropertyChanged("JsonParam");
+                }
             }
         }
 

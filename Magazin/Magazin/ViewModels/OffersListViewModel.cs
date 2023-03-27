@@ -1,5 +1,6 @@
 ﻿using Magazin.Models;
 using Magazin.Views;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,7 +17,6 @@ namespace Magazin.ViewModels
     public class OffersListViewModel : INotifyPropertyChanged
     {
         public ObservableCollection<OfferViewModel> OffersList { get; set; }
-        //public ICommand SelectOfferCommand { protected set; get; }
         OfferViewModel selectedOffer;
         readonly string url = "http://partner.market.yandex.ru/pages/help/YML.xml";
 
@@ -45,11 +45,6 @@ namespace Magazin.ViewModels
             }
         }
 
-       /* private void SelectOffer()
-        {
-            Navigation.PushAsync(new OfferPage(new OfferViewModel() { ListViewModel = this })); 
-        }*/
-
         protected void OnPropertyChanged(string propName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
@@ -72,7 +67,8 @@ namespace Magazin.ViewModels
                 using (XmlNodeReader reader = new XmlNodeReader(childNode))
                 {
                     Offer offer = (Offer)xmlSerializer.Deserialize(reader);
-                    OfferViewModel offerVM = new OfferViewModel { Id = offer.Id, Url = offer.Url, Price = offer.Price };
+                    offer.JsonParam = JsonHelper.FormatJson(JsonConvert.SerializeXmlNode(childNode));
+                    OfferViewModel offerVM = new OfferViewModel { Id = offer.Id, Url = offer.Url, Price = offer.Price, JsonParam = offer.JsonParam };
                     OffersList.Add(offerVM);
                 }
             }
